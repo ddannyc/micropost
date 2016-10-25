@@ -1,4 +1,6 @@
 class PhotosController < ApplicationController
+  before_action :logged_in_user, only: [:create, :destroy]
+  before_action :correct_user,    only: :destroy
 
   def create
     my_params = photo_params
@@ -18,20 +20,21 @@ class PhotosController < ApplicationController
   end
 
   def destroy
-    @photo = Photo.find(params[:id]);
-    user = @photo.album.user
-    if current_user?(user)
-      helpers.qiniu_delete(@photo.name)
-      @photo.destroy
-      flash[:success] = '照片删除成功'
-      redirect_back(fallback_location: albums_path)
-    end
+    @photo.destroy
+    helpers.qiniu_delete(@photo.name)
+    flash[:success] = '照片删除成功'
+    redirect_back(fallback_location: albums_path)
   end
 
   private
 
   def photo_params
     params.permit(:title, :album_id, name: [])
+  end
+
+  def correct_user
+    @photo = Photo.find_by(id: params[:id])
+    redirect_to root_url if @photo.nil? || !current_user?(@photo.album.user)
   end
 
 end
