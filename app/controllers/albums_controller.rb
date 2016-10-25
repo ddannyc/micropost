@@ -39,6 +39,17 @@ class AlbumsController < ApplicationController
     end
   end
 
+  def destroy
+    @album = current_user.albums.find(params[:id])
+    helpers.qiniu_delete(@album.cover)
+    @album.photos.each do |photo|
+      helpers.qiniu_delete(photo.name)
+    end
+    @album.destroy
+    flash[:success] = '相册删除成功'
+    redirect_to albums_path
+  end
+
   private
 
     def album_params

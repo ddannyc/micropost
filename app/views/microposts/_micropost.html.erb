@@ -12,10 +12,10 @@
     </div>
   </span>
   <span class="timestamp">
-    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+    <%= time_ago_in_words(micropost.created_at) %> 之前.
     <% if current_user?(micropost.user) %>
       <%= link_to "delete", micropost, method: :delete,
-        data: { confirm: "You sure?" } %>
+        data: { confirm: "确定要删除吗?" } %>
     <% end %>
   </span>
 </li>

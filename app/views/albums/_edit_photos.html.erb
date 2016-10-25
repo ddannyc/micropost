@@ -3,7 +3,7 @@
     <li id="photo_<%= photo.id %>">
       <%= image_tag(qiniu_img_url(photo.name, :thumb)) %> 
       <%= link_to '删除照片', photo, class: "btn btn-danger",
-        method: :delete, data: { confirm: '确定删除照片吗' } %>
+        method: :delete, data: { confirm: '确定删除照片吗?' } %>
     </li>
   <% end %>
 </ol>
