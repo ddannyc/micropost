@@ -1,0 +1,28 @@
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <%= render 'shared/user_info' %>
+    </section>
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+    <section class="album_form">
+      <%= form_for(@album) do |f| %>
+        <%= f.label :public, class: "checkbox" do %>
+          <%= f.check_box :public %>
+          <span>是否公开相册</span>
+        <% end %> 
+        <%= f.text_area :title %>
+        <%= f.submit 'Submit', class: "btn btn-primary btn-lg btn-block" %>
+      <% end %>
+      <section>
+      <%= link_to '删除相册', @album, class: "btn btn-danger btn-block",
+        method: :delete, data: { confirm: '确定删除相册吗' } %>
+      </section>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <h3>编辑照片</h3>
+    <%= render 'albums/edit_photos' %>
+  </div>
+</div>

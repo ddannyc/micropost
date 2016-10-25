@@ -3,6 +3,7 @@
   <head>
     <title><%= full_title(yield(:title)) %></title>
     <%= render 'layouts/rails_default' %>
+    <script src="https://cdn.staticfile.org/Plupload/2.1.1/plupload.full.min.js"></script>
     <%= render 'layouts/shim' %>
   </head>
   <body>
@@ -15,5 +16,6 @@
       <%= render 'layouts/footer' %>
       <%= debug(params) if Rails.env.development? %>
     </div>
+    <%= render 'layouts/blueimp_gallery' %>
   </body>
 </html>

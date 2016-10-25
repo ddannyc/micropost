@@ -1,0 +1,30 @@
+<div class="row">
+  <aside class="col-md-4">
+    <section class="user_info">
+      <%= render 'shared/user_info' %>
+    </section>
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+    <section class="album_form">
+      <%= render 'photos/form' %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+    <h3><%= @album.title %></h3>
+    <div id="links">
+      <%= render @photos %>
+    </div>
+    <%= will_paginate @photos %>
+  </div>
+</div>
+<script>
+document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+</script>

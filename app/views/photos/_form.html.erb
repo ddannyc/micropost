@@ -1,0 +1,20 @@
+<div id="container">
+  <div class="field">
+    <form id="data_form">
+      <%= hidden_field_tag :album_id, @album.id %>
+    </form>
+  </div>
+  <div class="field">
+    <p>
+      <a id="browse" href="javascript:;" class="btn btn-primary btn-lg btn-block">选择照片</a>
+    </p>
+    <p>
+      <a id="start-upload" href="javascript:;" class="btn btn-primary btn-lg btn-block">上传</a>
+    </p>
+    <p><a href="<%= edit_album_path(@album) %>" class="btn btn-primary btn-lg btn-block">编辑相册</a></p>
+  </div>
+</div>
+
+<%= render 'shared/upload_photo', obj: { post_path: photos_path,
+                                         img_field: 'name[]',
+                                         multiple: true} %>

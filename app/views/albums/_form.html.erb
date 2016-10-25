@@ -1,0 +1,23 @@
+<div id="container">
+  <div class="field">
+    <form id="data_form">
+      <%= label_tag :public, class: "checkbox" do %>
+        <%= check_box_tag :public %>
+        <span>是否公开相册</span>
+      <% end %> 
+      <%= text_area_tag :title, nil, placeholder: "请输入相册标题" %>
+    </form>
+  </div>
+  <div class="field">
+    <p>
+      <a id="browse" href="javascript:;" class="btn btn-primary btn-lg btn-block">选择封面</a>
+    </p>
+    <p>
+      <a id="start-upload" href="javascript:;" class="btn btn-primary btn-lg btn-block">新建</a>
+    </p>
+  </div>
+</div>
+
+<%= render 'shared/upload_photo', obj: { post_path: albums_path,
+                                         img_field: 'cover',
+                                         multiple: false} %>

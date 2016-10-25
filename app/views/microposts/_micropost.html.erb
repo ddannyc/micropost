@@ -3,13 +3,31 @@
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content">
     <%= micropost.content %>
-    <%= image_tag micropost.picture.url if micropost.picture? %>
+    <div class="links">
+      <% micropost.pictures.each do |picture| %>
+        <a href="<%= qiniu_img_url(picture, :big) %>">
+          <img src="<%= qiniu_img_url(picture, :thumb) %>">
+        </a>
+      <% end %>
+    </div>
   </span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>
       <%= link_to "delete", micropost, method: :delete,
-                                     data: { confirm: "You sure?" } %>
+        data: { confirm: "You sure?" } %>
     <% end %>
   </span>
 </li>
+<script>
+$(".links").each(function(index, obj){
+  obj.onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+    link = target.src ? target.parentNode : target,
+    options = {index: link, event: event},
+    links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+  }
+});
+</script>
