@@ -4,11 +4,15 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    if @micropost.save
-      flash[:success] = "Micropost created!"
-      redirect_to root_url
+    if @micropost.content.blank? && @micropost.pictures.empty?
+      render json: { msg: '请输入文字或者上传照片' }
     else
-      render json: { msg: @micropost.errors.full_messages } 
+      if @micropost.save
+        flash[:success] = "发表成功"
+        redirect_to root_url
+      else
+        render json: { msg: @micropost.errors.full_messages } 
+      end
     end
   end
 
@@ -24,12 +28,12 @@ class MicropostsController < ApplicationController
 
   private
 
-    def micropost_params
-      params.permit(:content, pictures: [])
-    end
+  def micropost_params
+    params.permit(:content, pictures: [])
+  end
 
-    def correct_user
-      @micropost = current_user.microposts.find_by(id: params[:id])
-      redirect_to root_url if @micropost.nil?
-    end
+  def correct_user
+    @micropost = current_user.microposts.find_by(id: params[:id])
+    redirect_to root_url if @micropost.nil?
+  end
 end

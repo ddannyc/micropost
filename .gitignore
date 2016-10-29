@@ -25,6 +25,7 @@ shared
 
 .rbenv-vars
 
+public
 public/assets/
 config/database.yml
 config/config.yml
