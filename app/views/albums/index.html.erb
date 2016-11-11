@@ -7,9 +7,11 @@
     <section class="stats">
       <%= render 'shared/stats' %>
     </section>
-    <section class="album_form">
-      <%= render 'albums/form' %>
-    </section>
+    <% if !params[:uid] %>
+      <section class="album_form">
+        <%= render 'albums/form' %>
+      </section>
+    <% end %>
   </aside>
   <div class="col-md-8">
     <h3>所有相册</h3>

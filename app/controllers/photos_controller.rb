@@ -9,7 +9,7 @@ class PhotosController < ApplicationController
       my_params[:name].respond_to?('each')
 
       my_params[:name].each do |name|
-        @album.photos.create!(name: name)
+        @album.photos.create(name: name)
       end
 
       flash[:success] = '照片上传成功'

@@ -3,31 +3,21 @@
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
   <span class="content">
     <%= micropost.content %>
-    <div class="links">
+    <div class="links clearfix">
       <% micropost.pictures.each do |picture| %>
-        <a href="<%= qiniu_img_url(picture, :big) %>">
-          <img src="<%= qiniu_img_url(picture, :thumb) %>">
+        <a  class="col-xs-4 col-md-4"
+            href="<%= qiniu_img_url(picture, :big) %>">
+          <img src="<%= qiniu_img_url(picture, :thumb) %>" width="100px" height="100px">
         </a>
       <% end %>
     </div>
   </span>
   <span class="timestamp">
-    <%= time_ago_in_words(micropost.created_at) %> 之前.
+    <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>
       <%= link_to "delete", micropost, method: :delete,
         data: { confirm: "确定要删除吗?" } %>
     <% end %>
   </span>
 </li>
-<script>
-$(".links").each(function(index, obj){
-  obj.onclick = function (event) {
-    event = event || window.event;
-    var target = event.target || event.srcElement,
-    link = target.src ? target.parentNode : target,
-    options = {index: link, event: event},
-    links = this.getElementsByTagName('a');
-    blueimp.Gallery(links, options);
-  }
-});
-</script>
+

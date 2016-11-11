@@ -6,6 +6,7 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
+      <%= link_to '相簿', albums_path(uid: @user.id) unless current_user?(@user) %>
     </section>
     <section class="stats">
       <%= render 'shared/stats' %>
@@ -21,3 +22,15 @@
       <%= will_paginate @microposts %>
     <% end %>
 </div>
+<script>
+$(".links").each(function(index, obj){
+  obj.onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+    link = target.src ? target.parentNode : target,
+    options = {index: link, event: event},
+    links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+  }
+});
+</script>

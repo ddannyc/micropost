@@ -3,18 +3,38 @@ class AlbumsController < ApplicationController
   before_action :correct_user,    only: [:edit, :update, :destroy]
 
   def index
-    @albums = current_user.albums.paginate(page: params[:page], per_page: 8)
+    if params[:uid]
+      @user = User.find(params[:uid])
+      @albums = 
+        @user.albums.where('public = ?', true).paginate(page: params[:page],
+                                                       per_page: 8)
+    else
+      @albums = current_user.albums.paginate(page: params[:page], per_page: 8)
+    end
     @js_validates = ['title'];
   end
 
   def show
-    @album = current_user.albums.find(params[:id])
+    if params[:uid]
+      @user = User.find(params[:uid])
+      @album = @user.albums.find(params[:id])
+    else
+      @album = current_user.albums.find(params[:id])
+    end
     @photos = @album.photos.paginate(page: params[:page])
   end
 
   def create
+    album_params = params.permit(:title, :public, :cover)
+    album_params[:cover] = Photo.first.id
     @album = current_user.albums.build(album_params)
     if @album.save
+      photo = @album.photos.build(name: params[:cover])
+      if photo.save
+        @album.update_attribute(:cover, photo.reload.id)
+      else
+        @album.update_attribute(:cover, 0)
+      end
       flash[:success] = '相册创建成功!';
       redirect_to albums_path
     else
@@ -28,7 +48,7 @@ class AlbumsController < ApplicationController
   end
 
   def update
-    my_params = params.require(:album).permit(:title, :public)
+    my_params = params.require(:album).permit(:title, :public, :cover)
     if @album.update_attributes(my_params)
       flash[:success] = '相册编辑成功'
       redirect_back(fallback_location: @album)
@@ -49,10 +69,6 @@ class AlbumsController < ApplicationController
   end
 
   private
-
-    def album_params
-      params.permit(:title, :public, :cover)
-    end
 
     def correct_user
       @album = current_user.albums.find_by(id: params[:id])

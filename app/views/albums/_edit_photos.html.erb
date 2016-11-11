@@ -4,6 +4,9 @@
       <%= image_tag(qiniu_img_url(photo.name, :thumb)) %> 
       <%= link_to '删除照片', photo, class: "btn btn-danger",
         method: :delete, data: { confirm: '确定删除照片吗?' } %>
+      <%= link_to '设为封面', album_path(@album, album: {cover: photo.id}),
+        method: :patch, class: "btn btn-primary"
+      %>
     </li>
   <% end %>
 </ol>
