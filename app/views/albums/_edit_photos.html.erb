@@ -1,5 +1,6 @@
 <ol class="albums">
   <% @photos.each do |photo| %>
+    <% if photo.name %>
     <li id="photo_<%= photo.id %>">
       <%= image_tag(qiniu_img_url(photo.name, :thumb)) %> 
       <%= link_to '删除照片', photo, class: "btn btn-danger",
@@ -8,5 +9,6 @@
         method: :patch, class: "btn btn-primary"
       %>
     </li>
+  <% end %>
   <% end %>
 </ol>

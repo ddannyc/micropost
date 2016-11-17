@@ -1,4 +1,6 @@
+<% if photo.name %>
 <a href="<%= qiniu_img_url(photo.name, :big) %>"
    title="<%= photo.title %>">
    <img src="<%= qiniu_img_url(photo.name, :thumb) %>" alt="<%= photo.title %>">
 </a>
+<% end %>

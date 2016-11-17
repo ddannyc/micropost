@@ -1,7 +1,7 @@
 module QiniuHelper
   QINIU_DOMAIN = 'http://ofar2pxva.bkt.clouddn.com/'
   QINIU_IMG_STYLE = {
-    thumb: 'imageView2/2/w/100/h/100/interlace/0/q/85',
+    thumb: 'imageView2/1/w/100/h/100/interlace/0/q/85',
     cover: 'imageView2/2/w/200/h/200/interlace/0/q/80',
     big:   'imageView2/2/w/1280/interlace/0/q/85'
   }

@@ -29,14 +29,15 @@ class AlbumsController < ApplicationController
     album_params[:cover] = Photo.first.id
     @album = current_user.albums.build(album_params)
     if @album.save
-      photo = @album.photos.build(name: params[:cover])
+      photo = @album.photos.build(user_id: current_user.id, name: params[:cover])
       if photo.save
         @album.update_attribute(:cover, photo.reload.id)
+        flash[:success] = '相册创建成功!';
+        redirect_to albums_path
       else
-        @album.update_attribute(:cover, 0)
+        flash[:success] = photo.errors.full_messages
+        redirect_to albums_path
       end
-      flash[:success] = '相册创建成功!';
-      redirect_to albums_path
     else
       helpers.qiniu_delete(params[:cover])
       render json: {msg: @album.errors.full_messages}
@@ -59,8 +60,8 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
+    helpers.qiniu_delete(@album.cover_photo.name) if @album.cover_photo
     @album.destroy
-    helpers.qiniu_delete(@album.cover)
     @album.photos.each do |photo|
       helpers.qiniu_delete(photo.name)
     end

@@ -5,8 +5,12 @@
                else
                  album_path(album, uid: params[:uid])
                end %>">
+               <% if album.cover_photo && album.cover_photo.name %>
                <img src="<%= qiniu_img_url(album.cover_photo.name, :thumb) %>" 
                width="100px" height="100px">
+             <% else %>
+               <img src="" width="100px" height="100px">
+             <% end %>
     </a>
   <span class="timestamp">
     <%= time_ago_in_words(album.created_at) %> ago. 
