@@ -11,7 +11,9 @@ module ApplicationHelper
     end
   end
 
-  def format_time(d)
-    d.strftime("%Y-%m-%d %H:%M:%S")
+  def format_date(d, time = false)
+    strformat = "%Y-%m-%d"
+    strformat = strformat + " %H:%M:%S" if time
+    d.strftime(strformat)
   end
 end
