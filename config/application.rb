@@ -14,5 +14,8 @@ module SampleApp
 
     # Include the authenticity token in remote forms.
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    config.time_zone = "Beijing"
+    config.encoding = "utf-8"
   end
 end
