@@ -13,7 +13,7 @@ module ApplicationHelper
 
   def format_date(d, time = false)
     strformat = "%Y-%m-%d"
-    strformat = strformat + " %H:%M:%S" if time
+    strformat = strformat + " %H:%M" if time
     d.strftime(strformat)
   end
 end
