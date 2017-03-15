@@ -14,7 +14,7 @@
   </span>
   <span class="timestamp">
     <%= format_date(micropost.created_at, 'time') %> 
-    <% if current_user?(micropost.user) %>
+    <% if false #current_user?(micropost.user) %>
       <%= link_to "delete", micropost, method: :delete,
         data: { confirm: "确定要删除吗?" } %>
     <% end %>
