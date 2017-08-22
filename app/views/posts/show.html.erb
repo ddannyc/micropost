@@ -1,0 +1,8 @@
+<div>
+<p><%= @post.title %></p>
+<%= to_md(@post.content) %>
+<p>
+<%= @post.user.name %>,
+<span class="timestamp"><%= format_date @post.created_at, 'time' %>
+</p>
+</div>

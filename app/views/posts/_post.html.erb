@@ -1,0 +1,8 @@
+<div>
+<p><%= link_to post.title, post_path(post.id) %></p>
+<p>
+<%= post.user.name %>,
+<span class="timestamp"><%= format_date post.created_at, 'time' %>
+</p>
+</div> 
+<hr/>
