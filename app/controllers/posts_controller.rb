@@ -3,15 +3,20 @@ class PostsController < ApplicationController
     before_action :correct_user, only: [:update, :destroy]
 
     def index
-        @categories = current_user.categories 
-        @posts = current_user.posts
-        @posts = @posts.where(category_id: params[:c]) if params[:c]
-        @posts = @posts.paginate(page: params[:page], per_page: 10)
-                     .order(created_at: :desc)
+        if current_user
+          @categories = current_user.categories
+          @posts = current_user.posts
+          @posts = @posts.where(category_id: params[:c]) if params[:c]
+          @posts = @posts.paginate(page: params[:page], per_page: 10)
+        else
+          @categories = []
+          @posts = Post.paginate(page: params[:page], per_page: 10)
+        end
     end
 
     def show
-        @categories = current_user.categories 
+        @categories = []
+        @categories = current_user.categories if current_user 
         @post = Post.find(params[:id])
     end
 
