@@ -1,8 +1,13 @@
-<div>
-<p><%= @post.title %></p>
+<div class="row">
+<div class="col-md-8">
+<h1><%= @post.title %></h1>
 <%= to_md(@post.content) %>
 <p>
 <%= @post.user.name %>,
 <span class="timestamp"><%= format_date @post.created_at, 'time' %>
 </p>
+</div>
+<div class="col-md-4">
+<%= link_to 'Edit', edit_post_path(@post), class: "btn btn-primary btn-lg btn-block" %>
+</div>
 </div>
