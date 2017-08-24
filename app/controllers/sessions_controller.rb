@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  def weiboCreate
+  def oauth 
     @user = User.find_or_create_from_auth_hash(auth_hash)
     log_in @user
     redirect_back_or root_url
