@@ -1,0 +1,88 @@
+<div id="error_explanation">
+  <ul>
+  </ul>
+</div>
+<div id="uploading" style="display:none;">
+  <%= image_tag asset_path('loading.gif') %>
+</div>
+<script type="text/javascript">
+var sourceLink = [];
+var uploader = Qiniu.uploader({
+  runtimes: 'html5,flash,html4',      // 上传模式，依次退化
+  browse_button: 'browse',         // 上传选择的点选按钮，必需
+  uptoken : '<%= qiniu_uptoken() %>', // uptoken是上传凭证，由其他程序生成
+  // uptoken_url: '',         // Ajax请求uptoken的Url，强烈建议设置（服务端提供）
+  uptoken_func: function(file){    // 在需要获取uptoken时，该方法会被调用
+    return uptoken;
+  },
+  get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
+  // unique_names: true,              // 默认false，key为文件名。若开启该选项，JS-SDK会为每个文件自动生成key（文件名）
+  // save_key: true,                  // 默认false。若在服务端生成uptoken的上传策略中指定了sava_key，则开启，SDK在前端将不对key进行任何处理
+  domain: 'http://ofar2pxva.bkt.clouddn.com/',     // bucket域名，下载资源时用到，必需
+    container: 'container',             // 上传区域DOM ID，默认是browser_button的父元素
+    max_file_size: '100mb',             // 最大文件体积限制
+    flash_swf_url: '<%= asset_path 'Moxie.swf' %>',  //引入flash，相对路径
+    max_retries: 3,                     // 上传失败最大重试次数
+    dragdrop: true,                     // 开启可拖曳上传
+    drop_element: 'container',          // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+    chunk_size: '4mb',                  // 分块上传时，每块的体积
+    <% if obj.include?(:multiple) && !obj[:multiple] %>
+        multi_selection: false,
+  <% end %>
+    auto_start: false,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+    resize: { width: 1280, height: 1280, quality: 70 },
+    init: {
+      'FilesAdded': function(up, files) {
+        $("#error_explanation li").remove();
+      },
+      'BeforeUpload': function(up, file) {
+        $("#uploading").show();
+      },
+      'UploadProgress': function(up, file) {
+      },
+      'FileUploaded': function(up, file, info) {
+        var res = JSON.parse(info);
+        sourceLink.push(res.key);
+      },
+      'Error': function(up, err, errTip) {
+      },
+      'UploadComplete': function() {
+        //队列文件处理完毕后，处理相关的事情
+        $("#uploading").hide();
+        var post_params = $("#data_form").serializeArray();
+        for (var i=0,n=sourceLink.length; i < n; i++) {
+          post_params.push({ name: '<%= obj[:img_field] %>', value: sourceLink[i] });
+        }
+        $.post('<%= obj[:post_path] %>',
+            post_params,
+            function(msg){ 
+              $.each(msg, function(i, val) {
+                $("#error_explanation>ul").append('<li>' + val + '</li>');
+              });
+            });
+        sourceLink = [];
+      },
+    }
+});
+document.getElementById('start-upload').onclick = function() {
+  if (form_check()) {
+    uploader.start();
+  }
+};
+function form_check() {
+  $("#error_explanation li").remove();
+  var result = true;
+  <% if @js_validates && @js_validates.any? %>
+      var presences = ['<%= @js_validates.join("', '") %>'];
+  $.each(presences, function(key, value) {
+    var input_val = $("#data_form #"+value).val();
+    if (!input_val){
+      result = false;
+      $("#error_explanation ul").append('<li>' + value + '不能为空.</li>');
+      return result;
+    }
+  });
+<% end %>
+  return result;
+}
+</script>

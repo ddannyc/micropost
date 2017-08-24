@@ -1,0 +1,14 @@
+<div id="container">
+  <div class="field">
+    <form id="data_form">
+      <%= text_area_tag :content, nil, placeholder: "用文字记录您的生活" %>
+    </form>
+  </div>
+  <div class="field">
+    <a id="browse" href="javascript:;" class="btn btn-primary btn-lg btn-block">选择照片</a>
+  </div>
+  <br>
+  <a id="start-upload" href="javascript:;" class="btn btn-primary btn-lg btn-block">发表</a>
+</div>
+
+<%= render 'shared/upload_photo', obj: { post_path: microposts_path, img_field: 'pictures[]'} %>
