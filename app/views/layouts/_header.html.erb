@@ -1,10 +1,11 @@
 <header class="navbar">
   <div class="container">
-    <%= link_to "燕十三的唠叨", root_path, id: "logo" %>
+    <%= link_to "燕十三自说自话", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "首页",   root_path %></li>
         <% if logged_in? %>
+          <li><%= link_to "微文", home_path %></li>
           <li><%= link_to "用户", users_path %></li>
           <li><%= link_to "相簿", albums_path %></li>
           <li class="dropdown">
