@@ -25,6 +25,16 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
+  def self.find_or_create_from_auth_hash(hash)
+    email = "#{hash[:uid]}@#{hash[:provider]}.com"
+    User.find_or_create_by(email: email) do |user|
+      user.name = hash[:info][:nickname]
+      user.password_digest = User.digest(hash[:uid])
+      user.activated = true
+      user.avatar = hash[:info][:image]
+    end
+  end
+
   # Returns the hash digest of the given string.
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

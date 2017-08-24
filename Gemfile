@@ -38,6 +38,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'bootstrap-will_paginate', '~> 0.0.10'
 gem 'qiniu', '~> 6.4.1'
 gem 'redcarpet'
+gem 'omniauth-weibo-oauth2'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
