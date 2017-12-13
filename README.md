@@ -1,25 +1,7 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# micropost
+# Yet another blog       .                                                           
+    This is a blog base on Rails Tutorials Micropost.  
+                                                                                     
+# New Features
+* Blog post(You can write markdown post now, not just micropost)
+* Albums(You can upload your photo and put to Categories)
+* New micropost(Micropost with photos like wechat friends circle)
