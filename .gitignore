@@ -25,6 +25,7 @@
 .byebug_history
 
 .rbenv-vars
+.ruby-version
 
 public
 public/assets/
